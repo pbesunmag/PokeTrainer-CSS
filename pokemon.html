@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS PokéTrainer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header id="header">
+    <div class="level-nav">
+      <button id="prev-lvl-btn" class="nav-btn" title="Nivel anterior">&lt;</button>
+      <select id="level-select" class="level-dropdown"></select>
+      <button id="next-lvl-btn" class="nav-btn" title="Siguiente nivel">&gt;</button>
+    </div>
+
+    <div id="difficulty-badge" class="badge">Tutorial</div>
+    <h1 id="level-title">Cargando...</h1>
+    <p id="level-desc">...</p>
+  </header>
+
+  <div class="stats-bar">
+    <span>Nivel: <b id="stat-level">1/10</b></span>
+    <span>Intentos nivel: <b id="stat-attempts">0</b></span>
+    <span>Total intentos: <b id="stat-total-attempts">0</b></span>
+  </div>
+
+  <div id="battlefield-wrapper">
+    <div id="battlefield"></div>
+  </div>
+
+  <main class="workspace">
+    <section class="panel">
+      <div class="panel-header">HTML Viewer</div>
+      <div class="editor-box">
+        <div class="line-numbers" id="html-lines">1</div>
+        <pre><code id="html-code"></code></pre>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">CSS Editor</div>
+      <div class="editor-box">
+        <div class="line-numbers">1<br>2<br>3<br>4</div>
+        <pre class="css-preview"><span id="css-live-preview" class="live-selector">/* Escribe tu selector */</span>
+<span class="bracket">{</span>
+  /* atrapar */
+<span class="bracket">}</span></pre>
+      </div>
+      <div class="input-group">
+        <input type="text" id="css-input" placeholder="selector..." autofocus />
+        <button id="submit-btn">Atrapar</button>
+      </div>
+      <div id="feedback"></div>
+    </section>
+  </main>
+
+  <!-- PokéNav Radio Flotante -->
+  <aside id="poke-radio" class="poke-radio">
+    <div class="radio-header">
+      <img src="180px-Pokenav.gif" alt="PokéNav" class="radio-icon-img" />
+      <span class="radio-label">PokéNav Radio</span>
+    </div>
+    
+    <div class="radio-body">
+      <div class="track-info">
+        <span id="radio-track-title" class="track-title">Cargando banda sonora...</span>
+      </div>
+      
+      <div class="radio-controls">
+        <button id="radio-prev-btn" class="radio-btn" title="Anterior">⏮</button>
+        <button id="radio-play-btn" class="radio-btn play-btn" title="Reproducir/Pausar">▶</button>
+        <button id="radio-next-btn" class="radio-btn" title="Siguiente">⏭</button>
+      </div>
+
+      <div class="radio-volume">
+        <span>🔈</span>
+        <input type="range" id="radio-volume" min="0" max="100" step="1" value="40" />
+        <span>🔊</span>
+      </div>
+    </div>
+    
+    <!-- Contenedor oculto para la API de YouTube -->
+    <div id="yt-player" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></div>
+  </aside>
+
+  <!-- API oficial de YouTube IFrame -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="levels.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
