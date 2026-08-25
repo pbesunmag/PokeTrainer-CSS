@@ -1,6 +1,13 @@
 let currentLevelIdx = 0;
 let levelAttempts = 0;
 let totalAttempts = 0;
+let currentZone = "Tutorial";
+
+// Elementos del DOM
+const mainMenu = document.getElementById("main-menu");
+const gameView = document.getElementById("game-view");
+const btnBackMenu = document.getElementById("btn-back-menu");
+const zoneCards = document.querySelectorAll(".zone-card");
 
 const battlefield = document.getElementById("battlefield-area");
 const htmlCode = document.getElementById("html-code");
@@ -16,6 +23,7 @@ const feedback = document.getElementById("feedback");
 const levelSelect = document.getElementById("level-select");
 const prevLvlBtn = document.getElementById("prev-lvl-btn");
 const nextLvlBtn = document.getElementById("next-lvl-btn");
+const diffTabBtns = document.querySelectorAll(".diff-tab-btn");
 
 const statLevel = document.getElementById("stat-level");
 const statAttempts = document.getElementById("stat-attempts");
@@ -23,6 +31,41 @@ const statTotalAttempts = document.getElementById("stat-total-attempts");
 
 const pokeDataCache = {};
 
+/* ===================================================
+   CONTROL DE NAVEGACIÓN (MENÚ PRINCIPAL <-> JUEGO)
+   =================================================== */
+function goToGame(difficulty) {
+  currentZone = difficulty;
+  mainMenu.classList.add("hidden");
+  gameView.classList.remove("hidden");
+
+  initLevelSelector();
+
+  const firstLvlIndex = levels.findIndex(
+    (lvl) => lvl.difficulty.toLowerCase() === difficulty.toLowerCase()
+  );
+  loadLevel(firstLvlIndex !== -1 ? firstLvlIndex : 0);
+}
+
+function goToMenu() {
+  gameView.classList.add("hidden");
+  mainMenu.classList.remove("hidden");
+}
+
+zoneCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    const diff = card.getAttribute("data-diff");
+    goToGame(diff);
+  });
+});
+
+if (btnBackMenu) {
+  btnBackMenu.addEventListener("click", goToMenu);
+}
+
+/* ===================================================
+   SELECTOR DE NIVELES Y PESTAÑAS
+   =================================================== */
 function initLevelSelector() {
   levelSelect.innerHTML = "";
   const groups = {};
@@ -33,10 +76,20 @@ function initLevelSelector() {
       groups[lvl.difficulty].label = `--- ${lvl.difficulty.toUpperCase()} ---`;
       levelSelect.appendChild(groups[lvl.difficulty]);
     }
+    
+    // Limpia solo el prefijo inicial "Nivel X: " conservando los : de pseudoclases (:not, :first-child, etc.)
+    const cleanTitle = lvl.title.replace(/^Nivel\s*\d+:\s*/i, "");
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = `${index + 1}. ${lvl.title.split(":")[1] || lvl.title}`;
+    option.textContent = `${index + 1}. ${cleanTitle}`;
     groups[lvl.difficulty].appendChild(option);
+  });
+}
+
+function updateActiveTab(difficulty) {
+  diffTabBtns.forEach((btn) => {
+    const tabDiff = btn.getAttribute("data-diff");
+    btn.classList.toggle("active", tabDiff.toLowerCase() === difficulty.toLowerCase());
   });
 }
 
@@ -102,6 +155,7 @@ async function loadLevel(idx) {
   const lvl = levels[currentLevelIdx];
   levelAttempts = 0;
   updateStats();
+  updateActiveTab(lvl.difficulty);
 
   difficultyBadge.textContent = lvl.difficulty;
   difficultyBadge.className = `badge badge-${lvl.difficulty.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
@@ -165,11 +219,11 @@ function checkAnswer() {
           loadLevel(currentLevelIdx + 1);
         } else {
           difficultyBadge.style.display = "none";
-          levelTitle.textContent = "¡Maestro Pokémon del CSS!";
-          levelDesc.textContent = `Has completado las 4 dificultades con un total de ${totalAttempts} intentos.`;
+          levelTitle.textContent = "¡Campeón de la Liga Pokémon!";
+          levelDesc.textContent = `Has superado todas las zonas con un total de ${totalAttempts} intentos.`;
           battlefield.innerHTML = '<pokemon pokedex="150" class="target-bounce"></pokemon>';
           enrichPokemonData(battlefield.querySelector("pokemon"));
-          htmlCode.textContent = "/* ¡Juego terminado con éxito! */";
+          htmlCode.textContent = "/* ¡Juego completado con éxito! */";
         }
       }, 800);
     } else {
@@ -183,6 +237,19 @@ function checkAnswer() {
     feedback.className = "error";
   }
 }
+
+// Botones de pestañas de zonas en la cabecera
+diffTabBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const targetDiff = btn.getAttribute("data-diff");
+    const firstLvlIndex = levels.findIndex(
+      (lvl) => lvl.difficulty.toLowerCase() === targetDiff.toLowerCase()
+    );
+    if (firstLvlIndex !== -1) {
+      loadLevel(firstLvlIndex);
+    }
+  });
+});
 
 submitBtn.addEventListener("click", checkAnswer);
 
@@ -303,6 +370,4 @@ radioVolume.addEventListener("input", (e) => {
   }
 });
 
-initLevelSelector();
-loadLevel(0);
 updateVolumeTrack(radioVolume.value);

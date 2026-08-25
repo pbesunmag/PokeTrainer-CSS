@@ -7,10 +7,88 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="app-container">
+
+  <!-- ==========================================
+       PANTALLA PRINCIPAL / MENÚ DE BIENVENIDA
+       ========================================== -->
+  <section id="main-menu" class="menu-container">
+    <div class="menu-header">
+      <img src="titulo.png" alt="PokéTrainer CSS" class="menu-logo-img" />
+      <p class="menu-subtitle">Elige tu zona de entrenamiento para dominar los selectores CSS</p>
+    </div>
+
+    <div class="zones-grid">
+      <!-- Guardería -->
+      <button class="zone-card card-tutorial" data-diff="Tutorial">
+        <div class="zone-icon">
+          <img src="huevo_pokemon.png" alt="Guardería Pokémon" />
+        </div>
+        <div class="zone-info">
+          <h3>Guardería Pokémon</h3>
+          <span class="zone-badge badge-tutorial">Tutorial</span>
+          <p>Aprende los fundamentos: selectores de etiqueta e ID.</p>
+        </div>
+      </button>
+
+      <!-- Ruta 1 -->
+      <button class="zone-card card-facil" data-diff="Fácil">
+        <div class="zone-icon">
+          <img src="cartel_ruta.png" alt="Ruta 1" />
+        </div>
+        <div class="zone-info">
+          <h3>Ruta 1</h3>
+          <span class="zone-badge badge-facil">Fácil</span>
+          <p>Clases, combinadores directos (&gt;) y hermanos adyacentes (+).</p>
+        </div>
+      </button>
+
+      <!-- Primer Gimnasio -->
+      <button class="zone-card card-intermedio" data-diff="Intermedio">
+        <div class="zone-icon">
+          <img src="estatua_pokemon.png" alt="Primer Gimnasio" />
+        </div>
+        <div class="zone-info">
+          <h3>Primer Gimnasio</h3>
+          <span class="zone-badge badge-intermedio">Intermedio</span>
+          <p>Selectores de atributo y pseudo-clases (:first-child, :nth-child).</p>
+        </div>
+      </button>
+
+      <!-- Liga Pokémon -->
+      <button class="zone-card card-dificil" data-diff="Difícil">
+        <div class="zone-icon">
+          <img src="estatua_liga.png" alt="Liga Pokémon" />
+        </div>
+        <div class="zone-info">
+          <h3>Liga Pokémon</h3>
+          <span class="zone-badge badge-dificil">Difícil</span>
+          <p>Selectores avanzados de negación (:not) y hermano general (~).</p>
+        </div>
+      </button>
+    </div>
+
+    <!-- Pestañas internas dentro de la cabecera del juego actualizadas -->
+    <nav class="difficulty-tabs hidden">
+      <button class="diff-tab-btn" data-diff="Tutorial">🏡 Guardería</button>
+      <button class="diff-tab-btn" data-diff="Fácil">🌿 Ruta 1</button>
+      <button class="diff-tab-btn" data-diff="Intermedio">🥋 Gimnasio</button>
+      <button class="diff-tab-btn" data-diff="Difícil">🏆 Liga Pokémon</button>
+    </nav>
+
+    <footer class="app-footer">
+      PokéTrainer CSS • v1.5.0 • Desarrollado por <strong>Pol Bastida</strong>
+    </footer>
+  </section>
+
+
+  <!-- ==========================================
+       VISTA DEL JUEGO (OCULTA INICIALMENTE)
+       ========================================== -->
+  <main id="game-view" class="app-container hidden">
     <!-- Cabecera de Navegación y Nivel -->
     <header class="game-header">
       <div class="header-top">
+        <button id="btn-back-menu" class="btn-menu-back">🏠 Menú Principal</button>
         <span id="difficulty-badge" class="badge badge-tutorial">Tutorial</span>
         <div class="level-nav">
           <button id="prev-lvl-btn" class="nav-btn" aria-label="Nivel anterior">◀</button>
@@ -18,6 +96,24 @@
           <button id="next-lvl-btn" class="nav-btn" aria-label="Siguiente nivel">▶</button>
         </div>
       </div>
+
+      <!-- Pestañas de Dificultad -->
+      <!-- Pestañas de Dificultad con Imágenes -->
+      <nav class="difficulty-tabs">
+        <button class="diff-tab-btn" data-diff="Tutorial">
+          <img src="huevo_pokemon.png" alt="Guardería" /> Guardería
+        </button>
+        <button class="diff-tab-btn" data-diff="Fácil">
+          <img src="cartel_ruta.png" alt="Ruta 1" /> Ruta 1
+        </button>
+        <button class="diff-tab-btn" data-diff="Intermedio">
+          <img src="estatua_pokemon.png" alt="Gimnasio" /> Gimnasio
+        </button>
+        <button class="diff-tab-btn" data-diff="Difícil">
+          <img src="estatua_liga.png" alt="Liga Pokémon" /> Liga Pokémon
+        </button>
+      </nav>
+
       <h1 id="level-title">Cargando...</h1>
       <p id="level-desc">...</p>
       <div class="stats-bar">
@@ -61,7 +157,7 @@
           </div>
         </div>
         <div class="css-input-row">
-          <input type="text" id="css-input" placeholder="selector..." autocomplete="off" spellcheck="false" autofocus />
+          <input type="text" id="css-input" placeholder="selector..." autocomplete="off" spellcheck="false" />
           <button id="submit-btn" class="btn-atrapar">Atrapar</button>
         </div>
         <div id="feedback"></div>
@@ -70,11 +166,13 @@
 
     <!-- Pie de Página -->
     <footer class="app-footer">
-      PokéTrainer CSS • v1.2.0 • Desarrollado por <strong>Pol Bastida</strong>
+      PokéTrainer CSS • v1.5.0 • Desarrollado por <strong>Pol Bastida</strong>
     </footer>
   </main>
 
-  <!-- PokéNav Radio Flotante -->
+  <!-- ==========================================
+       POKÉNAV RADIO FLOTANTE
+       ========================================== -->
   <aside id="pokenav-radio" class="pokenav-container">
     <div class="pokenav-header">
       <img src="alex-illustration-pokenav-animation-single-big-export.gif" alt="PokéNav" />
