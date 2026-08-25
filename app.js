@@ -2,7 +2,7 @@ let currentLevelIdx = 0;
 let levelAttempts = 0;
 let totalAttempts = 0;
 
-const battlefield = document.getElementById("battlefield");
+const battlefield = document.getElementById("battlefield-area");
 const htmlCode = document.getElementById("html-code");
 const htmlLines = document.getElementById("html-lines");
 const levelTitle = document.getElementById("level-title");
@@ -47,10 +47,9 @@ function updateStats() {
   levelSelect.value = currentLevelIdx;
 }
 
-// Reproduce el grito oficial de PokeAPI al interactuar con volumen suave
 function playPokemonCry(pokeIdOrName) {
   const cryAudio = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokeIdOrName.toLowerCase()}.ogg`);
-  cryAudio.volume = 0.15;
+  cryAudio.volume = 0.25;
   cryAudio.play().catch(err => console.warn("Error reproduciendo el grito:", err));
 }
 
@@ -58,7 +57,6 @@ async function enrichPokemonData(pokeElement) {
   const tagName = pokeElement.tagName.toLowerCase();
   const pokedexAttr = pokeElement.getAttribute("pokedex");
   const identifier = pokedexAttr || (tagName !== "pokemon" ? tagName : "25");
-  
   const isShiny = pokeElement.classList.contains("shiny") || pokeElement.hasAttribute("shiny");
 
   try {
@@ -71,26 +69,32 @@ async function enrichPokemonData(pokeElement) {
       pokeDataCache[identifier] = data;
     }
 
+    // Sprites 3D animados de Pokémon Showdown
+    const showdownSprites = data.sprites?.other?.showdown;
     const spriteUrl = isShiny
-      ? (data.sprites.versions?.['generation-v']?.['black-white']?.animated?.front_shiny || data.sprites.front_shiny)
-      : (data.sprites.versions?.['generation-v']?.['black-white']?.animated?.front_default || data.sprites.front_default);
+      ? (showdownSprites?.front_shiny || data.sprites?.front_shiny)
+      : (showdownSprites?.front_default || data.sprites?.front_default);
 
     pokeElement.style.backgroundImage = `url('${spriteUrl}')`;
 
-    // Evento de clic con grito y brinco
     pokeElement.onclick = (e) => {
       e.stopPropagation();
       playPokemonCry(data.id.toString());
-      
       pokeElement.classList.remove("cry-anim");
       void pokeElement.offsetWidth;
       pokeElement.classList.add("cry-anim");
     };
 
+    pokeElement.addEventListener("animationend", (e) => {
+      if (e.animationName === "cryHop" || e.animationName === "poke-cry") {
+        pokeElement.classList.remove("cry-anim");
+      }
+    });
+
   } catch (error) {
-    console.error(`Error cargando sprite para ${identifier}:`, error);
+    console.error(`Error cargando sprite 3D para ${identifier}:`, error);
     const fallbackBase = isShiny ? "shiny/" : "";
-    pokeElement.style.backgroundImage = `url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${fallbackBase}${identifier}.png')`;
+    pokeElement.style.backgroundImage = `url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${fallbackBase}${identifier}.gif')`;
   }
 }
 
@@ -104,20 +108,19 @@ async function loadLevel(idx) {
   difficultyBadge.className = `badge badge-${lvl.difficulty.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
   levelTitle.textContent = lvl.title;
   levelDesc.textContent = lvl.desc;
-  
+
   battlefield.innerHTML = lvl.html;
   htmlCode.textContent = lvl.html;
 
   const lineCount = lvl.html.split('\n').length;
-  htmlLines.innerHTML = Array.from({ length: lineCount }, (_, i) => i + 1).join('<br>');
+  htmlLines.innerHTML = Array.from({ length: lineCount }, (_, i) => `<div>${i + 1}</div>`).join('');
 
   feedback.textContent = "";
   feedback.className = "";
   cssInput.value = "";
-  
-  // Reinicia la previsualización del selector CSS
+
   livePreview.textContent = "/* Escribe tu selector */";
-  livePreview.style.color = "#89dceb";
+  livePreview.style.color = "#7dcfff";
   livePreview.style.fontStyle = "italic";
 
   const pokemons = Array.from(battlefield.querySelectorAll("pokemon, pikachu, charmander, bulbasaur, squirtle, eevee, snorlax, gengar, gyarados, magikarp, charizard, pidgey, rattata"));
@@ -147,7 +150,7 @@ function checkAnswer() {
 
     const isCorrect = userMatches.length === targetMatches.length &&
                       userMatches.length > 0 &&
-                      userMatches.every((el, i) => el === targetMatches[i]);
+                      userMatches.every((el) => targetMatches.includes(el));
 
     if (isCorrect) {
       targetMatches.forEach(el => {
@@ -182,7 +185,6 @@ function checkAnswer() {
   }
 }
 
-// Event Listeners de juego y reflejo CSS en vivo
 submitBtn.addEventListener("click", checkAnswer);
 
 cssInput.addEventListener("keydown", (e) => {
@@ -197,7 +199,7 @@ cssInput.addEventListener("input", (e) => {
     livePreview.style.fontStyle = "normal";
   } else {
     livePreview.textContent = "/* Escribe tu selector */";
-    livePreview.style.color = "#89dceb";
+    livePreview.style.color = "#7dcfff";
     livePreview.style.fontStyle = "italic";
   }
 });
@@ -214,7 +216,9 @@ nextLvlBtn.addEventListener("click", () => {
   if (currentLevelIdx < levels.length - 1) loadLevel(currentLevelIdx + 1);
 });
 
-// --- REPRODUCTOR POKÉGEAR CON PLAYLIST DE YOUTUBE ---
+/* ===================================================
+   REPRODUCTOR POKÉNAV (YOUTUBE PLAYLIST HOENN)
+   =================================================== */
 const PLAYLIST_ID = "PL2uxd6YWj7PIOlswxbt16G63Klr_3lsbR";
 
 let ytPlayer = null;
@@ -279,12 +283,18 @@ radioNextBtn.addEventListener("click", () => {
   }
 });
 
+function updateVolumeTrack(val) {
+  radioVolume.style.setProperty('--vol-percent', `${val}%`);
+}
+
 radioVolume.addEventListener("input", (e) => {
+  const val = parseInt(e.target.value, 10);
+  updateVolumeTrack(val);
   if (ytPlayer && typeof ytPlayer.setVolume === "function") {
-    ytPlayer.setVolume(parseInt(e.target.value, 10));
+    ytPlayer.setVolume(val);
   }
 });
 
-// Inicialización de niveles
 initLevelSelector();
 loadLevel(0);
+updateVolumeTrack(radioVolume.value);

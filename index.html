@@ -3,89 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CSS PokéTrainer</title>
+  <title>PokéTrainer CSS</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <main class="app-container">
+    <!-- Cabecera de Navegación y Nivel -->
+    <header class="game-header">
+      <div class="header-top">
+        <span id="difficulty-badge" class="badge badge-tutorial">Tutorial</span>
+        <div class="level-nav">
+          <button id="prev-lvl-btn" class="nav-btn" aria-label="Nivel anterior">◀</button>
+          <select id="level-select"></select>
+          <button id="next-lvl-btn" class="nav-btn" aria-label="Siguiente nivel">▶</button>
+        </div>
+      </div>
+      <h1 id="level-title">Cargando...</h1>
+      <p id="level-desc">...</p>
+      <div class="stats-bar">
+        <span>Nivel: <strong id="stat-level">1/10</strong></span>
+        <span>Intentos nivel: <strong id="stat-attempts">0</strong></span>
+        <span>Total intentos: <strong id="stat-total-attempts">0</strong></span>
+      </div>
+    </header>
 
-  <header id="header">
-    <div class="level-nav">
-      <button id="prev-lvl-btn" class="nav-btn" title="Nivel anterior">&lt;</button>
-      <select id="level-select" class="level-dropdown"></select>
-      <button id="next-lvl-btn" class="nav-btn" title="Siguiente nivel">&gt;</button>
-    </div>
+    <!-- Campo de Batalla -->
+    <section class="battle-section">
+      <div id="battlefield-area" class="battlefield-area"></div>
+    </section>
 
-    <div id="difficulty-badge" class="badge">Tutorial</div>
-    <h1 id="level-title">Cargando...</h1>
-    <p id="level-desc">...</p>
-  </header>
+    <!-- Paneles de Código -->
+    <section class="panels-container">
+      <!-- HTML Viewer -->
+      <div class="code-panel">
+        <div class="panel-header-title">HTML VIEWER</div>
+        <div class="code-editor-box">
+          <div id="html-lines" class="line-numbers">1</div>
+          <pre id="html-code" class="code-text"></pre>
+        </div>
+      </div>
 
-  <div class="stats-bar">
-    <span>Nivel: <b id="stat-level">1/10</b></span>
-    <span>Intentos nivel: <b id="stat-attempts">0</b></span>
-    <span>Total intentos: <b id="stat-total-attempts">0</b></span>
-  </div>
-
-  <div id="battlefield-wrapper">
-    <div id="battlefield"></div>
-  </div>
-
-  <main class="workspace">
-    <section class="panel">
-      <div class="panel-header">HTML Viewer</div>
-      <div class="editor-box">
-        <div class="line-numbers" id="html-lines">1</div>
-        <pre><code id="html-code"></code></pre>
+      <!-- CSS Editor -->
+      <div class="code-panel">
+        <div class="panel-header-title">CSS EDITOR</div>
+        <div class="code-editor-box css-editor-box">
+          <div class="line-numbers">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+          </div>
+          <div class="css-template-text">
+            <span id="css-live-preview" class="css-comment">/* Escribe tu selector */</span><br />
+            {<br />
+            &nbsp;&nbsp;<span class="css-highlight">/* atrapar */</span><br />
+            }
+          </div>
+        </div>
+        <div class="css-input-row">
+          <input type="text" id="css-input" placeholder="selector..." autocomplete="off" spellcheck="false" autofocus />
+          <button id="submit-btn" class="btn-atrapar">Atrapar</button>
+        </div>
+        <div id="feedback"></div>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="panel-header">CSS Editor</div>
-      <div class="editor-box">
-        <div class="line-numbers">1<br>2<br>3<br>4</div>
-        <pre class="css-preview"><span id="css-live-preview" class="live-selector">/* Escribe tu selector */</span>
-<span class="bracket">{</span>
-  /* atrapar */
-<span class="bracket">}</span></pre>
-      </div>
-      <div class="input-group">
-        <input type="text" id="css-input" placeholder="selector..." autofocus />
-        <button id="submit-btn">Atrapar</button>
-      </div>
-      <div id="feedback"></div>
-    </section>
+    <!-- Pie de Página -->
+    <footer class="app-footer">
+      PokéTrainer CSS • v1.2.0 • Desarrollado por <strong>Pol Bastida</strong>
+    </footer>
   </main>
 
   <!-- PokéNav Radio Flotante -->
-  <aside id="poke-radio" class="poke-radio">
-    <div class="radio-header">
-      <img src="180px-Pokenav.gif" alt="PokéNav" class="radio-icon-img" />
-      <span class="radio-label">PokéNav Radio</span>
+  <aside id="pokenav-radio" class="pokenav-container">
+    <div class="pokenav-header">
+      <img src="180px-Pokenav.gif" alt="PokéNav" />
+      <span class="pokenav-title">POKÉNAV RADIO</span>
     </div>
-    
-    <div class="radio-body">
-      <div class="track-info">
-        <span id="radio-track-title" class="track-title">Cargando banda sonora...</span>
-      </div>
-      
-      <div class="radio-controls">
-        <button id="radio-prev-btn" class="radio-btn" title="Anterior">⏮</button>
-        <button id="radio-play-btn" class="radio-btn play-btn" title="Reproducir/Pausar">▶</button>
-        <button id="radio-next-btn" class="radio-btn" title="Siguiente">⏭</button>
-      </div>
-
-      <div class="radio-volume">
-        <span>🔈</span>
-        <input type="range" id="radio-volume" min="0" max="100" step="1" value="40" />
-        <span>🔊</span>
-      </div>
+    <div id="radio-track-title" class="track-display">PokéNav Listo ...</div>
+    <div class="radio-controls">
+      <button id="radio-prev-btn" class="radio-btn" aria-label="Pista anterior">⏮</button>
+      <button id="radio-play-btn" class="radio-btn" aria-label="Reproducir / Pausa">▶</button>
+      <button id="radio-next-btn" class="radio-btn" aria-label="Siguiente pista">⏭</button>
     </div>
-    
-    <!-- Contenedor oculto para la API de YouTube -->
+    <div class="volume-container">
+      <span aria-hidden="true">🔈</span>
+      <input type="range" id="radio-volume" min="0" max="100" value="40" aria-label="Volumen" />
+      <span aria-hidden="true">🔊</span>
+    </div>
     <div id="yt-player" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></div>
   </aside>
 
-  <!-- API oficial de YouTube IFrame -->
+  <!-- Scripts -->
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="levels.js"></script>
   <script src="app.js"></script>
