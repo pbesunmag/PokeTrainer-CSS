@@ -69,7 +69,6 @@ async function enrichPokemonData(pokeElement) {
       pokeDataCache[identifier] = data;
     }
 
-    // Sprites 3D animados de Pokémon Showdown
     const showdownSprites = data.sprites?.other?.showdown;
     const spriteUrl = isShiny
       ? (showdownSprites?.front_shiny || data.sprites?.front_shiny)
@@ -284,7 +283,16 @@ radioNextBtn.addEventListener("click", () => {
 });
 
 function updateVolumeTrack(val) {
-  radioVolume.style.setProperty('--vol-percent', `${val}%`);
+  if (val === 0) {
+    radioVolume.style.setProperty('--vol-percent', '0%');
+    return;
+  }
+  const thumbWidth = 38;
+  const trackWidth = radioVolume.offsetWidth || 140;
+  const currentPos = (val / 100) * (trackWidth - thumbWidth) + (thumbWidth * 0.45);
+  const realPercent = Math.min(100, Math.max(0, (currentPos / trackWidth) * 100));
+
+  radioVolume.style.setProperty('--vol-percent', `${realPercent}%`);
 }
 
 radioVolume.addEventListener("input", (e) => {

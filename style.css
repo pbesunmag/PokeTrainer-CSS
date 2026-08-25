@@ -204,17 +204,17 @@ pokeball {
 pokeball::after {
   content: '';
   position: absolute;
-  top: 35%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -46%);
-  width: 140px;
-  height: 140px;
+  width: 200px;
+  height: 200px;
   background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   image-rendering: pixelated;
-  opacity: 0.55;
+  opacity: 0.4;
   filter: drop-shadow(0 0 10px rgba(239, 83, 80, 0.75));
   z-index: 2;
   pointer-events: none;
@@ -238,7 +238,7 @@ charizard, pidgey, rattata {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center bottom;
-  image-rendering: auto; /* Mantiene la nitidez de los modelos 3D */
+  image-rendering: auto;
   cursor: pointer;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
   transition: transform 0.15s ease;
@@ -262,18 +262,16 @@ charizard::after, pidgey::after, rattata::after {
 }
 
 /* ===================================================
-   EFECTO SHINY
+   EFECTO SHINY LIMPIO (ESTRELLAS EN ::before)
    =================================================== */
 @keyframes shinyGlow {
-  0% { filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.85)); }
-  50% { filter: drop-shadow(0 0 18px rgba(255, 235, 59, 1)) brightness(1.15); }
-  100% { filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.85)); }
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.6)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(255, 235, 59, 0.9)) brightness(1.1); }
 }
 
 @keyframes shinyStarsAnim {
-  0% { transform: scale(0.85) rotate(-5deg); opacity: 0.7; }
-  50% { transform: scale(1.2) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 8px #ffeb3b); }
-  100% { transform: scale(0.85) rotate(-5deg); opacity: 0.7; }
+  0%, 100% { transform: scale(0.85) rotate(-5deg); opacity: 0.75; }
+  50%      { transform: scale(1.1) rotate(15deg); opacity: 1; }
 }
 
 .shiny, [shiny] {
@@ -281,14 +279,17 @@ charizard::after, pidgey::after, rattata::after {
   overflow: visible !important;
 }
 
-.shiny::after, [shiny]::after {
+/* Usamos ::before para las estrellas (así no interfiere con la sombra ::after del suelo) */
+.shiny::before, [shiny]::before {
   content: '✨';
   position: absolute;
   top: -8px;
-  right: -6px;
-  font-size: 1.4rem;
+  right: -4px;
+  font-size: 0.95rem;
   z-index: 10;
   pointer-events: none;
+  filter: none !important;
+  text-shadow: none !important;
   animation: shinyStarsAnim 1.4s infinite ease-in-out;
 }
 
@@ -503,27 +504,49 @@ charizard::after, pidgey::after, rattata::after {
 }
 
 .pokenav-header img {
-  width: 18px;
+  width: 22px;
   height: 22px;
   object-fit: contain;
   vertical-align: middle;
+  image-rendering: pixelated;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
+/* Pantalla marco fijo */
 .track-display {
   background: rgba(15, 15, 23, 0.85);
-  color: #7dcfff;
-  font-family: var(--font-code);
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 4px 8px;
+  padding: 4px 6px;
   border-radius: 4px;
-  text-align: center;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
   margin-bottom: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+}
+
+/* Marquesina de título con desplazamiento suave */
+#radio-track-title {
+  color: #7dcfff;
+  font-family: var(--font-code);
+  font-size: 0.74rem;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: marqueeTrack 9s linear infinite;
+}
+
+.track-display:hover #radio-track-title {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeTrack {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .radio-controls {
@@ -574,12 +597,12 @@ charizard::after, pidgey::after, rattata::after {
   appearance: none;
   width: 38px;
   height: 32px;
-  background: url('pikachu-running.gif') no-repeat center center;
+  background: url('pikachu-running.gif') no-repeat center bottom;
   background-size: contain;
   image-rendering: pixelated;
   border: none;
   cursor: grab;
-  margin-top: -22px;
+  margin-top: -26px;
   filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7));
   transition: transform 0.1s ease;
 }
@@ -587,7 +610,7 @@ charizard::after, pidgey::after, rattata::after {
 .volume-container input[type="range"]::-moz-range-thumb {
   width: 38px;
   height: 32px;
-  background: url('pikachu-running.gif') no-repeat center center;
+  background: url('pikachu-running.gif') no-repeat center bottom;
   background-size: contain;
   image-rendering: pixelated;
   border: none;
