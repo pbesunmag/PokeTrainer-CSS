@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PokéTrainer CSS</title>
+  <link rel="icon" type="image/png" href="titulo.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,6 +17,25 @@
       <img src="titulo.png" alt="PokéTrainer CSS" class="menu-logo-img" />
       <p class="menu-subtitle">Elige tu zona de entrenamiento para dominar los selectores CSS</p>
     </div>
+
+    <!-- Banner: Pokémon del Día -->
+    <!-- Banner: Pokémon del Día -->
+    <a id="daily-pokemon-banner" class="daily-poke-card" href="#" target="_blank" rel="noopener noreferrer">
+      <div class="daily-poke-badge">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="" class="daily-badge-icon" />
+        <span>POKÉMON DEL DÍA</span>
+      </div>
+      <div class="daily-poke-content">
+        <div class="daily-poke-img-wrap">
+          <img id="daily-poke-img" src="" alt="Cargando..." />
+        </div>
+        <div class="daily-poke-text">
+          <span id="daily-poke-number">#---</span>
+          <h4 id="daily-poke-name">Cargando...</h4>
+          <p class="daily-poke-sub">¡Toca para saber más!</p>
+        </div>
+      </div>
+    </a>
 
     <div class="zones-grid">
       <!-- Guardería -->
@@ -67,16 +87,8 @@
       </button>
     </div>
 
-    <!-- Pestañas internas dentro de la cabecera del juego actualizadas -->
-    <nav class="difficulty-tabs hidden">
-      <button class="diff-tab-btn" data-diff="Tutorial">🏡 Guardería</button>
-      <button class="diff-tab-btn" data-diff="Fácil">🌿 Ruta 1</button>
-      <button class="diff-tab-btn" data-diff="Intermedio">🥋 Gimnasio</button>
-      <button class="diff-tab-btn" data-diff="Difícil">🏆 Liga Pokémon</button>
-    </nav>
-
     <footer class="app-footer">
-      PokéTrainer CSS • v1.5.0 • Desarrollado por <strong>Pol Bastida</strong>
+      PokéTrainer CSS • v1.5.1 • Desarrollado por <strong>Pol Bastida</strong>
     </footer>
   </section>
 
@@ -97,8 +109,7 @@
         </div>
       </div>
 
-      <!-- Pestañas de Dificultad -->
-      <!-- Pestañas de Dificultad con Imágenes -->
+      <!-- Pestañas de Dificultad (4 Zonas Oficiales con Imágenes) -->
       <nav class="difficulty-tabs">
         <button class="diff-tab-btn" data-diff="Tutorial">
           <img src="huevo_pokemon.png" alt="Guardería" /> Guardería
@@ -166,31 +177,44 @@
 
     <!-- Pie de Página -->
     <footer class="app-footer">
-      PokéTrainer CSS • v1.5.0 • Desarrollado por <strong>Pol Bastida</strong>
+      PokéTrainer CSS • v1.5.1 • Desarrollado por <strong>Pol Bastida</strong>
     </footer>
   </main>
 
+
   <!-- ==========================================
-       POKÉNAV RADIO FLOTANTE
+       POKÉNAV: PANEL LATERAL IZQUIERDO DESPLEGABLE
        ========================================== -->
-  <aside id="pokenav-radio" class="pokenav-container">
-    <div class="pokenav-header">
-      <img src="alex-illustration-pokenav-animation-single-big-export.gif" alt="PokéNav" />
-      <span class="pokenav-title">POKÉNAV RADIO</span>
+  <aside id="pokenav-sidebar" class="pokenav-sidebar closed">
+    <div class="sidebar-content">
+      <div class="pokenav-brand">
+        <img src="alex-illustration-pokenav-animation-single-big-export.gif" alt="PokéNav" />
+        <span>POKÉNAV RADIO</span>
+      </div>
+
+      <div class="track-display">
+        <span id="radio-track-title">PokéNav Listo (Hoenn OST)</span>
+      </div>
+
+      <div class="radio-controls">
+        <button id="radio-prev-btn" class="radio-btn" aria-label="Pista anterior">⏮</button>
+        <button id="radio-play-btn" class="radio-btn" aria-label="Reproducir / Pausa">▶</button>
+        <button id="radio-next-btn" class="radio-btn" aria-label="Siguiente pista">⏭</button>
+      </div>
+
+      <div class="volume-container">
+        <span aria-hidden="true">🔈</span>
+        <input type="range" id="radio-volume" min="0" max="100" value="40" aria-label="Volumen" />
+        <span aria-hidden="true">🔊</span>
+      </div>
     </div>
-    <div class="track-display">
-      <span id="radio-track-title">PokéNav Listo ...</span>
-    </div>
-    <div class="radio-controls">
-      <button id="radio-prev-btn" class="radio-btn" aria-label="Pista anterior">⏮</button>
-      <button id="radio-play-btn" class="radio-btn" aria-label="Reproducir / Pausa">▶</button>
-      <button id="radio-next-btn" class="radio-btn" aria-label="Siguiente pista">⏭</button>
-    </div>
-    <div class="volume-container">
-      <span aria-hidden="true">🔈</span>
-      <input type="range" id="radio-volume" min="0" max="100" value="40" aria-label="Volumen" />
-      <span aria-hidden="true">🔊</span>
-    </div>
+
+    <!-- Pestaña / Tirador Lateral -->
+    <button id="pokenav-side-btn" class="pokenav-side-handle" aria-label="Desplegar PokéNav">
+      <img src="alex-illustration-pokenav-animation-single-big-export.gif" alt="" class="tab-mini-icon" />
+      <span id="side-arrow" class="side-arrow">▶</span>
+    </button>
+
     <div id="yt-player" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></div>
   </aside>
 

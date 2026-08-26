@@ -24,8 +24,10 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
+  align-items: center;
   min-height: 100vh;
-  padding: 10px 15px 35px;
+  padding: 15px;
+  overflow-x: hidden;
 }
 
 .hidden {
@@ -33,7 +35,7 @@ body {
 }
 
 /* ===================================================
-   MENÚ PRINCIPAL (BOTONES UNIFORMES E IMÁGENES)
+   MENÚ PRINCIPAL (LOBBY ESCRITORIO)
    =================================================== */
 .menu-container {
   width: 100%;
@@ -41,8 +43,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto 0;
   animation: fadeIn 0.4s ease-out;
+  margin: auto;
 }
 
 .menu-header {
@@ -51,8 +53,8 @@ body {
 }
 
 .menu-logo-img {
-  max-width: 420px;
-  width: 90%;
+  max-width: 500px;
+  width: 95%;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.7));
@@ -82,7 +84,7 @@ body {
   background: rgba(22, 22, 34, 0.88);
   border: 2px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
-  padding: 18px 20px;
+  padding: 16px 18px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -93,7 +95,7 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  min-height: 120px;
+  min-height: 110px;
 }
 
 .zone-card:hover {
@@ -103,8 +105,8 @@ body {
 }
 
 .zone-icon {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,10 +151,126 @@ body {
   letter-spacing: 0.8px;
 }
 
-@media (max-width: 650px) {
-  .zones-grid {
-    grid-template-columns: 1fr;
-  }
+/* ===================================================
+   BANNER: POKÉMON DEL DÍA (ESCRITORIO)
+   =================================================== */
+.daily-poke-card {
+  position: fixed !important;
+  top: 24px !important;
+  left: 24px !important;
+  z-index: 1000 !important;
+  width: auto !important;
+  min-width: 290px !important;
+  max-width: 360px !important;
+  background: rgba(22, 22, 34, 0.95);
+  border: 2px solid rgba(249, 226, 175, 0.5);
+  border-radius: 16px;
+  padding: 12px 18px;
+  text-decoration: none;
+  color: inherit;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.daily-poke-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--accent-yellow);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
+}
+
+.daily-poke-badge {
+  align-self: flex-start;
+  background: var(--accent-yellow);
+  color: #11111b;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.9px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.daily-badge-icon {
+  width: 18px !important;
+  height: 18px !important;
+  object-fit: contain;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.daily-poke-content {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 14px !important;
+  width: 100%;
+}
+
+.daily-poke-img-wrap {
+  width: 85px !important;
+  height: 85px !important;
+  min-width: 85px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px;
+  overflow: visible !important;
+  flex-shrink: 0;
+}
+
+#daily-poke-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  transform: scale(1.15);
+  image-rendering: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.75));
+}
+
+.daily-poke-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  padding-right: 4px;
+}
+
+#daily-poke-number {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #7aa2f7;
+  font-family: var(--font-code);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+#daily-poke-name {
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #fff;
+  text-transform: capitalize;
+  line-height: 1.15;
+  margin-bottom: 3px;
+  word-break: break-word;
+}
+
+.daily-poke-sub {
+  font-size: 0.72rem;
+  color: #a6adc8;
+  white-space: nowrap;
 }
 
 /* ===================================================
@@ -235,9 +353,7 @@ body {
   transition: background 0.2s;
 }
 
-.nav-btn:hover {
-  background: #414868;
-}
+.nav-btn:hover { background: #414868; }
 
 select#level-select {
   background: rgba(30, 32, 48, 0.85);
@@ -252,6 +368,14 @@ select#level-select {
 select#level-select optgroup {
   background: #181825;
   color: #89b4fa;
+}
+
+.difficulty-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 10px;
 }
 
 .diff-tab-btn {
@@ -274,7 +398,6 @@ select#level-select optgroup {
   height: 14px;
   object-fit: contain;
   image-rendering: pixelated;
-  vertical-align: middle;
 }
 
 .diff-tab-btn:hover {
@@ -303,6 +426,10 @@ select#level-select optgroup {
   max-width: 680px;
   margin: 0 auto 8px auto;
   line-height: 1.4;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stats-bar {
@@ -321,7 +448,7 @@ select#level-select optgroup {
 }
 
 /* ===================================================
-   CAMPO DE BATALLA, CONTENEDORES Y SPRITES 3D
+   CAMPO DE BATALLA Y SPRITES 3D
    =================================================== */
 .battle-section {
   width: 100%;
@@ -333,7 +460,7 @@ select#level-select optgroup {
 .battlefield-area {
   width: 100%;
   max-width: 650px;
-  height: 220px; /* Cambiado de min-height a height fijo */
+  height: 220px;
   background-image: url('background_battle_spritte.jpg');
   background-size: cover;
   background-position: center 59%;
@@ -377,17 +504,17 @@ pokeball {
 pokeball::after {
   content: '';
   position: absolute;
-  top: -46%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -46%);
-  width: 200px;
-  height: 2000px;
+  width: 140px;
+  height: 140px;
   background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   image-rendering: pixelated;
-  opacity: 0.4;
+  opacity: 0.55;
   filter: drop-shadow(0 0 10px rgba(239, 83, 80, 0.75));
   z-index: 2;
   pointer-events: none;
@@ -429,7 +556,7 @@ charizard::after, pidgey::after, rattata::after {
 }
 
 /* ===================================================
-   EFECTO SHINY LIMPIO (ESTRELLAS EN ::before)
+   EFECTOS SHINY Y ANIMACIONES DE INTERACCIÓN
    =================================================== */
 @keyframes shinyGlow {
   0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.6)); }
@@ -459,7 +586,6 @@ charizard::after, pidgey::after, rattata::after {
   animation: shinyStarsAnim 1.4s infinite ease-in-out;
 }
 
-/* Animaciones */
 @keyframes bounceContinuous {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -480,8 +606,17 @@ charizard::after, pidgey::after, rattata::after {
   100% { transform: scale(1) translateY(0); }
 }
 
-.cry-anim {
+/* Salto prioritario para Pokémon normales */
+.cry-anim,
+.target-bounce.cry-anim {
   animation: cryHop 0.4s ease forwards !important;
+}
+
+/* Salto prioritario conservando aura Shiny */
+.shiny.cry-anim,
+.target-bounce.shiny.cry-anim,
+[shiny].cry-anim {
+  animation: cryHop 0.4s ease forwards, shinyGlow 1.8s infinite ease-in-out !important;
 }
 
 .captured {
@@ -532,7 +667,7 @@ charizard::after, pidgey::after, rattata::after {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 12px 10px;
-  min-height: 180px;
+  height: 180px;
   display: flex;
   font-family: var(--font-code);
   font-size: 0.68rem;
@@ -566,18 +701,9 @@ charizard::after, pidgey::after, rattata::after {
   font-size: 0.82rem;
 }
 
-.css-template-text {
-  color: #c0caf5;
-}
-
-.css-highlight {
-  color: #7dcfff;
-  font-style: italic;
-}
-
-.css-comment {
-  color: #565f89;
-}
+.css-template-text { color: #c0caf5; }
+.css-highlight { color: #7dcfff; font-style: italic; }
+.css-comment { color: #565f89; }
 
 .css-input-row {
   display: flex;
@@ -618,13 +744,8 @@ charizard::after, pidgey::after, rattata::after {
   white-space: nowrap;
 }
 
-.btn-atrapar:hover {
-  filter: brightness(1.1);
-}
-
-.btn-atrapar:active {
-  transform: scale(0.96);
-}
+.btn-atrapar:hover { filter: brightness(1.1); }
+.btn-atrapar:active { transform: scale(0.96); }
 
 #feedback {
   font-size: 0.82rem;
@@ -637,55 +758,63 @@ charizard::after, pidgey::after, rattata::after {
 #feedback.error { color: var(--accent-red); }
 
 /* ===================================================
-   POKÉNAV RADIO FLOTANTE
+   POKÉNAV: PANEL LATERAL IZQUIERDO DESPLEGABLE
    =================================================== */
-.pokenav-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
-  background: rgba(26, 27, 38, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 2px solid #fab387;
-  border-radius: 12px;
-  padding: 10px 14px;
-  width: 250px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+.pokenav-sidebar {
+  position: fixed !important;
+  top: 50% !important;
+  left: 0 !important;
+  transform: translateY(-50%) !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.pokenav-header {
+.pokenav-sidebar.closed {
+  transform: translateY(-50%) translateX(-100%) !important;
+}
+
+.sidebar-content {
+  background: rgba(22, 22, 34, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid #fab387;
+  border-left: none;
+  border-radius: 0 14px 14px 0;
+  padding: 14px 16px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 6px 0 25px rgba(0, 0, 0, 0.65);
+}
+
+.pokenav-brand {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.8px;
   color: #fab387;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  white-space: nowrap;
+  letter-spacing: 0.8px;
 }
 
-.pokenav-header img {
-  width: 22px;
-  height: 22px;
+.pokenav-brand img {
+  width: 24px !important;
+  height: 24px !important;
   object-fit: contain;
-  vertical-align: middle;
   image-rendering: pixelated;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  flex-shrink: 0;
 }
 
 .track-display {
-  background: rgba(15, 15, 23, 0.85);
-  padding: 4px 6px;
-  border-radius: 4px;
+  background: rgba(15, 15, 23, 0.9);
+  padding: 5px 8px;
+  border-radius: 6px;
   overflow: hidden;
   white-space: nowrap;
-  margin-bottom: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
 }
 
@@ -700,12 +829,10 @@ charizard::after, pidgey::after, rattata::after {
   animation: marqueeTrack 9s linear infinite;
 }
 
-.track-display:hover #radio-track-title {
-  animation-play-state: paused;
-}
+.track-display:hover #radio-track-title { animation-play-state: paused; }
 
 @keyframes marqueeTrack {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
 
@@ -713,16 +840,15 @@ charizard::after, pidgey::after, rattata::after {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 5px;
 }
 
 .radio-btn {
   background: #24283b;
   border: 1px solid #414868;
   color: #c0caf5;
-  font-size: 0.8rem;
-  padding: 3px 8px;
-  border-radius: 4px;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -733,15 +859,15 @@ charizard::after, pidgey::after, rattata::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   font-size: 0.85rem;
-  margin-top: 8px;
+  margin-top: 2px;
 }
 
 .volume-container input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 140px;
+  width: 130px;
   height: 6px;
   background: linear-gradient(to right, #fab387 0%, #fab387 var(--vol-percent, 40%), #11111b var(--vol-percent, 40%), #11111b 100%);
   border-radius: 4px;
@@ -753,31 +879,64 @@ charizard::after, pidgey::after, rattata::after {
 .volume-container input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 38px;
-  height: 32px;
+  width: 34px;
+  height: 28px;
   background: url('pikachu-running.gif') no-repeat center bottom;
   background-size: contain;
   image-rendering: pixelated;
   border: none;
   cursor: grab;
-  margin-top: -26px;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7));
-  transition: transform 0.1s ease;
+  margin-top: -22px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
 }
 
 .volume-container input[type="range"]::-moz-range-thumb {
-  width: 38px;
-  height: 32px;
+  width: 34px;
+  height: 28px;
   background: url('pikachu-running.gif') no-repeat center bottom;
   background-size: contain;
   image-rendering: pixelated;
   border: none;
   cursor: grab;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+}
+
+/* Tirador lateral */
+.pokenav-side-handle {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(22, 22, 34, 0.96);
+  border: 2px solid #fab387;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  color: #fab387;
+  padding: 10px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 4px 0 14px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.tab-mini-icon {
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.side-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
 }
 
 .app-footer {
-  margin-top: 20px;
+  margin-top: 15px;
   text-align: center;
   font-size: 0.85rem;
   color: #a9b1d6;
@@ -789,11 +948,225 @@ charizard::after, pidgey::after, rattata::after {
   color: var(--accent-yellow);
 }
 
+/* ===================================================
+   RESPONSIVE MÓVILES (<= 768px)
+   =================================================== */
 @media (max-width: 768px) {
-  .panels-container { flex-direction: column; gap: 15px; }
-  .battlefield-area { min-height: 165px; padding-bottom: 40px; }
-  pokemon, pikachu, charmander, bulbasaur, squirtle, eevee, snorlax, gengar, gyarados, magikarp, charizard, pidgey, rattata {
-    width: 75px; height: 75px;
+  body {
+    padding: 10px 10px 40px;
   }
-  .pokenav-container { bottom: 10px; right: 10px; width: 190px; padding: 8px 10px; }
+
+  /* Menú Principal */
+  .menu-logo-img { 
+    max-width: 310px; 
+  }
+  
+  .menu-subtitle {
+    font-size: 0.78rem;
+    white-space: normal;
+    text-align: center;
+    padding: 0 4px;
+    margin-bottom: 14px;
+  }
+
+  /* Banner Pokémon del Día Integrado en Flujo Vertical */
+  .daily-poke-card {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 14px 0 !important;
+    padding: 10px 14px !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .daily-poke-badge {
+    font-size: 0.6rem;
+    padding: 2px 7px;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+
+  .daily-badge-icon {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .daily-poke-content {
+    gap: 12px !important;
+  }
+
+  .daily-poke-img-wrap {
+    width: 65px !important;
+    height: 65px !important;
+    min-width: 65px !important;
+    padding: 3px;
+  }
+
+  #daily-poke-img {
+    transform: scale(1.1);
+  }
+
+  #daily-poke-number {
+    font-size: 0.7rem;
+  }
+
+  #daily-poke-name {
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+  }
+
+  .daily-poke-sub {
+    font-size: 0.7rem;
+    white-space: normal;
+  }
+
+  .zones-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .zone-card {
+    padding: 12px 14px;
+    min-height: auto;
+  }
+
+  /* Cabecera del Juego en 2 Niveles */
+  .game-header {
+    width: 100%;
+    padding: 0 4px;
+  }
+
+  .header-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .btn-menu-back {
+    font-size: 0.72rem;
+    padding: 4px 8px;
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+  }
+
+  .level-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 340px;
+    gap: 4px;
+  }
+
+  select#level-select {
+    flex: 1;
+    max-width: calc(100% - 60px);
+    font-size: 0.75rem;
+    padding: 4px 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .nav-btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Pestañas de Zona 2x2 */
+  .difficulty-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 6px;
+    margin: 4px 0 8px;
+  }
+
+  .diff-tab-btn {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+  }
+
+  /* Textos de Nivel */
+  #level-title {
+    font-size: 1.3rem;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+
+  #level-desc {
+    font-size: 0.8rem;
+    line-height: 1.35;
+    min-height: auto;
+    padding: 0 4px;
+    margin-bottom: 6px;
+  }
+
+  .stats-bar {
+    font-size: 0.75rem;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Campo de Batalla y Sprites */
+  .battlefield-area {
+    width: 100%;
+    max-width: 360px;
+    height: 155px;
+    background-size: 100% 100%;
+    background-position: center bottom;
+    padding-bottom: 50px;
+    gap: 12px;
+  }
+
+  pokemon, pikachu, charmander, bulbasaur, squirtle, eevee, snorlax, gengar, gyarados, magikarp, charizard, pidgey, rattata {
+    width: 55px;
+    height: 55px;
+  }
+
+  pokeball::after {
+    width: 120px;
+    height: 120px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  pokemon::after, pikachu::after, charmander::after, bulbasaur::after, squirtle::after,
+  eevee::after, snorlax::after, gengar::after, gyarados::after, magikarp::after,
+  charizard::after, pidgey::after, rattata::after {
+    bottom: -2px;
+    height: 6px;
+  }
+
+  /* Paneles de Código */
+  .panels-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .code-editor-box {
+    height: 140px;
+  }
+
+  /* Panel Lateral PokéNav */
+  .sidebar-content {
+    width: 210px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .volume-container input[type="range"] {
+    width: 100px;
+  }
 }

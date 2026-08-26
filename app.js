@@ -64,7 +64,7 @@ if (btnBackMenu) {
 }
 
 /* ===================================================
-   SELECTOR DE NIVELES Y PESTAÑAS
+   SELECTOR DE NIVELES COMPLETO Y PESTAÑAS
    =================================================== */
 function initLevelSelector() {
   levelSelect.innerHTML = "";
@@ -77,7 +77,7 @@ function initLevelSelector() {
       levelSelect.appendChild(groups[lvl.difficulty]);
     }
     
-    // Limpia solo el prefijo inicial "Nivel X: " conservando los : de pseudoclases (:not, :first-child, etc.)
+    // Conserva los : de las pseudoclases limpiando solo el prefijo inicial
     const cleanTitle = lvl.title.replace(/^Nivel\s*\d+:\s*/i, "");
     const option = document.createElement("option");
     option.value = index;
@@ -283,6 +283,20 @@ nextLvlBtn.addEventListener("click", () => {
 });
 
 /* ===================================================
+   TOGGLE POKÉNAV PANEL LATERAL IZQUIERDO
+   =================================================== */
+const pokenavSidebar = document.getElementById("pokenav-sidebar");
+const pokenavSideBtn = document.getElementById("pokenav-side-btn");
+const sideArrow = document.getElementById("side-arrow");
+
+if (pokenavSideBtn && pokenavSidebar) {
+  pokenavSideBtn.addEventListener("click", () => {
+    const isClosed = pokenavSidebar.classList.toggle("closed");
+    sideArrow.textContent = isClosed ? "▶" : "◀";
+  });
+}
+
+/* ===================================================
    REPRODUCTOR POKÉNAV (YOUTUBE PLAYLIST HOENN)
    =================================================== */
 const PLAYLIST_ID = "PL2uxd6YWj7PIOlswxbt16G63Klr_3lsbR";
@@ -371,3 +385,48 @@ radioVolume.addEventListener("input", (e) => {
 });
 
 updateVolumeTrack(radioVolume.value);
+
+/* ===================================================
+   SISTEMA DE POKÉMON DEL DÍA (SIN REPETICIONES: 1 A 1025)
+   =================================================== */
+const TOTAL_POKEMON = 1025;
+const COPRIME_STEP = 389; // Coprimo con 1025 para recorrer todo el ciclo sin saltar ni repetir
+const OFFSET = 42;
+
+function getDailyPokemonId() {
+  const epochDays = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+  // Generador de congruencia lineal para ciclo completo estricto
+  const dailyIndex = (epochDays * COPRIME_STEP + OFFSET) % TOTAL_POKEMON;
+  return dailyIndex + 1; // Rango de 1 a 1025
+}
+
+async function initDailyPokemon() {
+  const pokeId = getDailyPokemonId();
+  const banner = document.getElementById("daily-pokemon-banner");
+  const imgEl = document.getElementById("daily-poke-img");
+  const numEl = document.getElementById("daily-poke-number");
+  const nameEl = document.getElementById("daily-poke-name");
+
+  if (!banner) return;
+
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`);
+    if (!res.ok) throw new Error("No se pudo obtener el Pokémon del día");
+    const data = await res.json();
+
+    const name = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+    const formattedId = String(data.id).padStart(4, "0");
+    const sprite = data.sprites?.other?.showdown?.front_default ||
+                   data.sprites?.front_default;
+
+    imgEl.src = sprite;
+    numEl.textContent = `N.º ${formattedId}`;
+    nameEl.textContent = name;
+    banner.href = `https://www.wikidex.net/wiki/${encodeURIComponent(name)}`;
+  } catch (err) {
+    console.error("Error al cargar el Pokémon del día:", err);
+    banner.style.display = "none";
+  }
+}
+
+initDailyPokemon();
