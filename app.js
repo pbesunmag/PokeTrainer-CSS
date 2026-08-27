@@ -414,15 +414,18 @@ async function initDailyPokemon() {
     if (!res.ok) throw new Error("No se pudo obtener el Pokémon del día");
     const data = await res.json();
 
-    const name = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+    // Obtener el nombre base limpio (eliminando formas como -green-plumage, -totem, etc.)
+    const rawName = data.species?.name || data.name.split("-")[0];
+    const cleanName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+
     const formattedId = String(data.id).padStart(4, "0");
     const sprite = data.sprites?.other?.showdown?.front_default ||
                    data.sprites?.front_default;
 
     imgEl.src = sprite;
     numEl.textContent = `N.º ${formattedId}`;
-    nameEl.textContent = name;
-    banner.href = `https://www.wikidex.net/wiki/${encodeURIComponent(name)}`;
+    nameEl.textContent = cleanName;
+    banner.href = `https://www.wikidex.net/wiki/${encodeURIComponent(cleanName)}`;
   } catch (err) {
     console.error("Error al cargar el Pokémon del día:", err);
     banner.style.display = "none";

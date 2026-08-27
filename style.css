@@ -258,13 +258,15 @@ body {
 }
 
 #daily-poke-name {
-  font-size: 1.22rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #fff;
   text-transform: capitalize;
   line-height: 1.15;
   margin-bottom: 3px;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Si el nombre es muy largo añade puntos suspensivos sin partirlo */
 }
 
 .daily-poke-sub {
